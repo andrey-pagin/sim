@@ -51,9 +51,9 @@ class App(Frame):
         self.button_getvalue.pack(side='left', expand=1)
 
     def connect(self):
-        # Connecting to copeliasim via port 19999.
+        # Connecting to copeliasim via port 19997.
         sim.simxFinish(-1)  # just in case, close all opened connections
-        self.clientID = sim.simxStart('127.0.0.1', 19999, True, True, 5000, 5)  # Connect to CoppeliaSim
+        self.clientID = sim.simxStart('127.0.0.1', 19997, True, True, 5000, 5)  # Connect to CoppeliaSim
         if self.clientID != -1:
             self.text.config(text='Connected to remote API server', bg='green')
 
@@ -85,6 +85,8 @@ class App(Frame):
         res, linear_velocity, angular_velocity = sim.simxGetObjectVelocity(self.clientID, v0,
                                                                            sim.simx_opmode_oneshot_wait)
         self.text.config(text=str(linear_velocity))
+        sim.simxSetObjectFloatParameter(self.clientID, v0, sim.sim_shapefloatparam_init_velocity_x, 10000,
+                                        sim.simx_opmode_oneshot_wait)
 
     def quit(self):
         # Before closing the connection to CoppeliaSim, make sure that the last command sent out had time to arrive.
@@ -94,3 +96,4 @@ class App(Frame):
         # Now close the connection to CoppeliaSim:
         sim.simxFinish(self.clientID)
         sys.exit(0)
+
