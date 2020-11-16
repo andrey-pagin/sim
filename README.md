@@ -1,3 +1,3 @@
 # sim
 Testing coppeliaSim API.
-Using tkinter to create GUI.
+Using tkinter to create GUI
